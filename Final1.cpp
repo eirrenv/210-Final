@@ -51,6 +51,7 @@ int main() {
     for (string code : busiest) {
         cout << code << " " << max << endl;
     }
+    cout << endl;
 
     int first = 5;
     int second = 8;
@@ -61,6 +62,7 @@ int main() {
             cout << airport.first << " " << airport.second << endl;
         }
     }
+    cout << endl;
 
     first = 9;
     second = 12;
