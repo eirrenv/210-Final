@@ -2,6 +2,7 @@
 #include <string>
 #include <map>
 #include <fstream>
+#include <vector>
 using namespace std;
 
 int main() {
@@ -30,5 +31,25 @@ int main() {
 
     file.close();
 
+    cout << endl;
+
+    int max;
+    max = traffic["ATL"];
+    vector<string> busiest;
+    for (auto airport : traffic) {
+        if (airport.second > max) {
+            max = airport.second;
+            busiest.clear();
+            busiest.push_back(airport.first);
+        }
+        else if (airport.second == max) {
+            busiest.push_back(airport.first);
+        }
+    }
+
+    cout << "Busiest airport(s) with count " << max << ":" << endl;
+    for (string code : busiest) {
+        cout << code << " " << max << endl;
+    }
     return 0;
 }
