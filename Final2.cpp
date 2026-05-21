@@ -3,6 +3,7 @@
 #include <array>
 #include <cstdlib>
 #include <ctime>
+#include <deque>
 using namespace std;
 
 const int NUM_NAMES = 50;
@@ -36,6 +37,19 @@ const array<string, NUM_ORDERS> ORDERS = {
     "Honey Latte", "Oat Milk Latte", "Almond Milk Latte", "Coconut Milk Latte", "Decaf Coffee"
 };
 
+const array<string, 50> MUFFINS = {
+    "Blueberry Muffin", "Chocolate Chip Muffin", "Banana Nut Muffin", "Double Chocolate Muffin", "Bran Muffin",
+    "Cranberry Orange Muffin", "Lemon Poppy Seed Muffin", "Pumpkin Spice Muffin", "Apple Cinnamon Muffin", "Strawberry Muffin",
+    "Raspberry Muffin", "Blackberry Muffin", "Mixed Berry Muffin", "Coffee Cake Muffin", "Vanilla Bean Muffin",
+    "Almond Muffin", "Peach Muffin", "Carrot Muffin", "Zucchini Muffin", "Maple Walnut Muffin",
+    "Cherry Muffin", "Chocolate Banana Muffin", "Oatmeal Muffin", "Honey Muffin", "Coconut Muffin",
+    "Lemon Blueberry Muffin", "Orange Cranberry Muffin", "White Chocolate Raspberry Muffin", "Mocha Muffin", "Salted Caramel Muffin",
+    "Nutella Muffin", "Peanut Butter Muffin", "S'mores Muffin", "Toffee Muffin", "Espresso Muffin",
+    "Pumpkin Chocolate Chip Muffin", "Strawberry Banana Muffin", "Mixed Nut Muffin", "Honey Oat Muffin", "Brown Sugar Muffin",
+    "Dark Chocolate Muffin", "Gluten-Free Blueberry Muffin", "Vegan Banana Muffin", "Vegan Chocolate Muffin", "Low Sugar Muffin",
+    "High Protein Muffin", "Pumpkin Cheesecake Muffin", "Blueberry Cheesecake Muffin", "Lemon Cheesecake Muffin", "Birthday Cake Muffin"
+};
+
 struct Node {
     string name;
     string order;
@@ -45,9 +59,15 @@ struct Node {
 Node* front = nullptr;
 Node* back = nullptr;
 
-void enqueue(string name, string order);
+void coffeeEnqueue(string name, string order);
 
-void dequeue();
+void coffeeDequeue();
+
+deque<pair<string, string>> muffinQueue;
+
+void muffinEnqueue(string name, string order);
+
+void muffinDequeue();
 
 void printQueue();
 
@@ -64,24 +84,35 @@ int main() {
 
     int round = 1;
     for (int i = 0; i < ROUNDS; ++i) {
-        cout << "Round " << round << ":" << endl;
+        cout << "Round " << round << ":" << endl << endl;
+
         random = rand() % 10;
+
         if (front != nullptr) {
-            dequeue();
+            coffeeDequeue();
         }
         else {
-            cout << "Queue is empty." << endl;
+            cout << "Coffee queue is empty." << endl;
         }
+
+        if (!muffinQueue.empty()) {
+            muffinDequeue();
+        }
+        else {
+            cout << "Muffin queue is empty." << endl;
+        }
+
         if (random < 5) {   
             customer();  
         }
         round++;
+        cout << endl;
     }
 
     return 0;
 }
 
-void enqueue(string name, string order) {
+void coffeeEnqueue(string name, string order) {
     Node* newNode = new Node{name, order, nullptr};
 
     if (back == nullptr) {
@@ -92,10 +123,10 @@ void enqueue(string name, string order) {
         back = newNode;
     }
 
-    cout << name << " joined the queue with " << order << endl;
+    cout << name << " joined coffee queue with order: " << order << endl;
 }
 
-void dequeue() {
+void coffeeDequeue() {
     if (front == nullptr) {
         cout << "Queue is empty" << endl;
         return;
@@ -106,12 +137,28 @@ void dequeue() {
     cout << "Serving " << front->name << " with order " << front->order << endl;
 
     front = front->next;
-    
+
     if (front == nullptr) {
         back == nullptr;
     }
     
     delete tmp;
+}
+
+void muffinEnqueue(string name, string order) {
+    muffinQueue.push_back({name, order});
+    cout << name << " Joined muffin queue with order: " << order << endl;
+}
+
+void muffinDequeue() {
+    if (muffinQueue.empty()) {
+        return;
+    }
+
+    auto customer = muffinQueue.front();
+    muffinQueue.pop_front();
+
+    cout << "Serving " << customer.first << " with order " << customer.second << endl;
 }
 
 void printQueue() {
@@ -133,5 +180,10 @@ void customer() {
     int randName = rand() % NUM_NAMES;
     int randOrder = rand() % NUM_ORDERS;
 
-    enqueue(NAMES[randName], ORDERS[randOrder]);
+    coffeeEnqueue(NAMES[randName], ORDERS[randOrder]);
+
+    randName = rand() % NUM_NAMES;
+    randOrder = rand() % NUM_ORDERS;
+
+    muffinEnqueue(NAMES[randName], MUFFINS[randOrder]);
 }
