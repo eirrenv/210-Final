@@ -1,6 +1,8 @@
 #include <iostream>
 #include <string>
 #include <array>
+#include <cstdlib>
+#include <ctime>
 using namespace std;
 
 const int NUM_NAMES = 50;
@@ -41,8 +43,70 @@ struct Node {
 Node* front = nullptr;
 Node* back = nullptr;
 
+void enqueue(string name, string order);
+
+void dequeue();
+
+void printQueue();
+
+void customer();
 
 int main() {
+    srand(time(0));
+
 
     return 0;
+}
+
+void enqueue(string name, string order) {
+    Node* newNode = new Node{name, order, nullptr};
+
+    if (back == nullptr) {
+        front = back = newNode;
+    }
+    else {
+        back->next = newNode;
+        back = newNode;
+    }
+
+    cout << name << " joined the queue with " << order << endl;
+}
+
+void dequeue() {
+    if (front == nullptr) {
+        cout << "Queue is empty" << endl;
+        return;
+    }
+
+    Node* tmp = front;
+    
+    cout << "Serving " << front->name << " with order " << front->order << endl;
+
+    if (front == nullptr) {
+        back == nullptr;
+    }
+    
+    delete tmp;
+}
+
+void printQueue() {
+    if (front == nullptr) {
+        cout << "Queue is empty." << endl;
+        return;
+    } 
+
+    Node* current = front;
+
+    cout << "Queue: " << endl;
+    while (current != nullptr) {
+        cout << current->name << " " << current->order << endl;
+        current = current->next;
+    }
+}
+
+void customer() {
+    int randName = rand() % NUM_NAMES;
+    int randOrder = rand() % NUM_ORDERS;
+
+    enqueue(NAMES[randName], ORDERS[randOrder]);
 }
