@@ -51,5 +51,26 @@ int main() {
     for (string code : busiest) {
         cout << code << " " << max << endl;
     }
+
+    int first = 5;
+    int second = 8;
+
+    cout << "Airports with traffic in range [" << first << ", " << second << "]:" << endl;
+    for (auto airport : traffic) {
+        if (airport.second >= first && airport.second <= second) {
+            cout << airport.first << " " << airport.second << endl;
+        }
+    }
+
+    first = 9;
+    second = 12;
+
+    cout << "Airports with traffic in range [" << first << ", " << second << "]:" << endl;
+    for (auto airport : traffic) {
+        if (airport.second >= first && airport.second <= second) {
+            cout << airport.first << " " << airport.second << endl;
+        }
+    }
+
     return 0;
 }
