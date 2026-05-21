@@ -8,6 +8,8 @@ using namespace std;
 const int NUM_NAMES = 50;
 const int NUM_ORDERS = 50;
 
+const int ROUNDS = 10;
+
 const array<string, NUM_NAMES> NAMES = {
     "Alice", "Bob", "Charlie", "Diana", "Ethan",
     "Fiona", "Grace", "Henry", "Isabella", "Jack",
@@ -54,6 +56,27 @@ void customer();
 int main() {
     srand(time(0));
 
+    int random; 
+
+    for (int i = 0; i < 3; ++i) {
+        customer();
+    }
+
+    int round = 1;
+    for (int i = 0; i < ROUNDS; ++i) {
+        cout << "Round " << round << ":" << endl;
+        random = rand() % 10;
+        if (front != nullptr) {
+            dequeue();
+        }
+        else {
+            cout << "Queue is empty." << endl;
+        }
+        if (random < 5) {   
+            customer();  
+        }
+        round++;
+    }
 
     return 0;
 }
@@ -82,6 +105,8 @@ void dequeue() {
     
     cout << "Serving " << front->name << " with order " << front->order << endl;
 
+    front = front->next;
+    
     if (front == nullptr) {
         back == nullptr;
     }
