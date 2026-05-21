@@ -5,6 +5,7 @@
 #include <ctime>
 #include <deque>
 #include <vector>
+#include <queue>
 using namespace std;
 
 const int NUM_NAMES = 50;
@@ -64,6 +65,19 @@ const array<string, 50> BRACELETS = {
     "Lucky Red String Bracelet", "Mixed Bead Charm Bracelet", "Soft Pastel Bracelet", "Bold Pattern Bracelet", "Classic Thread Bracelet"
 };
 
+const array<string, 50> MOFUSANDS = {
+    "Mofusand Shark Cat", "Mofusand Strawberry Cat", "Mofusand Sushi Cat", "Mofusand Pancake Cat", "Mofusand Burger Cat",
+    "Mofusand Fries Cat", "Mofusand Pizza Cat", "Mofusand Donut Cat", "Mofusand Ice Cream Cat", "Mofusand Coffee Cat",
+    "Mofusand Boba Cat", "Mofusand Milk Cat", "Mofusand Cake Cat", "Mofusand Cookie Cat", "Mofusand Honey Cat",
+    "Mofusand Lemon Cat", "Mofusand Orange Cat", "Mofusand Watermelon Cat", "Mofusand Grape Cat", "Mofusand Banana Cat",
+    "Mofusand Avocado Cat", "Mofusand Croissant Cat", "Mofusand Bread Cat", "Mofusand Toast Cat", "Mofusand Egg Cat",
+    "Mofusand Ramen Cat", "Mofusand Noodle Cat", "Mofusand Dumpling Cat", "Mofusand Taco Cat", "Mofusand Burrito Cat",
+    "Mofusand Hot Dog Cat", "Mofusand Popcorn Cat", "Mofusand Candy Cat", "Mofusand Chocolate Cat", "Mofusand Candy Apple Cat",
+    "Mofusand Jelly Cat", "Mofusand Pudding Cat", "Mofusand Matcha Cat", "Mofusand Tea Cat", "Mofusand Latte Cat",
+    "Mofusand Espresso Cat", "Mofusand Cappuccino Cat", "Mofusand Croissant Sandwich Cat", "Mofusand Cheesecake Cat", "Mofusand Brownie Cat",
+    "Mofusand Muffin Cat", "Mofusand Cupcake Cat", "Mofusand Macaron Cat", "Mofusand Waffle Cat", "Mofusand Crepe Cat"
+};
+
 struct Node {
     string name;
     string order;
@@ -89,7 +103,11 @@ void braceletEnqueue(string name, string order);
 
 void braceletDequeue();
 
-void printQueue();
+queue<pair<string, string>> mofusandQueue;
+
+void mofusandEnqueue(string name, string order);
+
+void mofusandDequeue();
 
 void customer();
 
@@ -127,6 +145,13 @@ int main() {
         }
         else {
             cout << "Bracelet queue is empty." << endl;
+        }
+
+        if (!mofusandQueue.empty()) {
+            mofusandDequeue();
+        }
+        else {
+            cout << "Mofusand queue is empty." << endl;
         }
 
         if (random < 5) {   
@@ -190,7 +215,7 @@ void muffinDequeue() {
 
 void braceletEnqueue(string name, string order) {
     braceletQueue.push_back({name, order});
-    cout << name << " Joined bracelet queue with order: " << order << endl;
+    cout << name << " joined bracelet queue with order: " << order << endl;
 }
 
 void braceletDequeue() {
@@ -201,22 +226,23 @@ void braceletDequeue() {
     auto customer = braceletQueue.front();
     braceletQueue.erase(braceletQueue.begin());
 
-    cout << "Serving" << customer.first << " with order" << customer.second << endl;
+    cout << "Serving " << customer.first << " with order " << customer.second << endl;
 }
 
-void printQueue() {
-    if (front == nullptr) {
-        cout << "Queue is empty." << endl;
+void mofusandEnqueue(string name, string order) {
+    mofusandQueue.push({name, order});
+    cout << name << " joined Mofusand queue with order: " << order << endl;
+}
+
+void mofusandDequeue() {
+    if (mofusandQueue.empty()) {
         return;
-    } 
-
-    Node* current = front;
-
-    cout << "Queue: " << endl;
-    while (current != nullptr) {
-        cout << current->name << " " << current->order << endl;
-        current = current->next;
     }
+
+    auto customer = mofusandQueue.front();
+    mofusandQueue.pop();
+
+    cout << "Serving " << customer.first << " with order " << customer.second << endl;
 }
 
 void customer() {
@@ -234,4 +260,9 @@ void customer() {
     randOrder = rand() % NUM_ORDERS;
 
     braceletEnqueue(NAMES[randName], BRACELETS[randOrder]);
+
+    randName = rand() % NUM_NAMES;
+    randOrder = rand() % NUM_ORDERS;
+
+    mofusandEnqueue(NAMES[randName], MOFUSANDS[randOrder]);
 }
