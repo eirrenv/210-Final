@@ -4,6 +4,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <deque>
+#include <vector>
 using namespace std;
 
 const int NUM_NAMES = 50;
@@ -50,6 +51,19 @@ const array<string, 50> MUFFINS = {
     "High Protein Muffin", "Pumpkin Cheesecake Muffin", "Blueberry Cheesecake Muffin", "Lemon Cheesecake Muffin", "Birthday Cake Muffin"
 };
 
+const array<string, 50> BRACELETS = {
+    "Blue Friendship Bracelet", "Red Beaded Bracelet", "Rainbow Thread Bracelet", "Gold Charm Bracelet", "Silver Chain Bracelet",
+    "Heart Pattern Bracelet", "Star Bead Bracelet", "Wave Pattern Bracelet", "Sunshine Bracelet", "Moonlight Bracelet",
+    "Ocean Blue Bracelet", "Forest Green Bracelet", "Sunset Gradient Bracelet", "Pastel Mix Bracelet", "Neon Glow Bracelet",
+    "Black & White Bracelet", "Floral Pattern Bracelet", "Spiral Design Bracelet", "Peace Sign Bracelet", "Infinity Knot Bracelet",
+    "Boho Style Bracelet", "Minimalist String Bracelet", "Crystal Bead Bracelet", "Lucky Charm Bracelet", "Sport Wristband",
+    "Leather Wrap Bracelet", "Braided Rope Bracelet", "Custom Name Bracelet", "Friendship Knot Bracelet", "Festival Beaded Bracelet",
+    "Beach Shell Bracelet", "Galaxy Theme Bracelet", "Candy Color Bracelet", "Glow-in-the-Dark Bracelet", "Vintage Beaded Bracelet",
+    "Pride Color Bracelet", "Emoji Bead Bracelet", "Animal Charm Bracelet", "Happiness Charm Bracelet", "Love Knot Bracelet",
+    "Adventure Bracelet", "Travel Memory Bracelet", "Story Bead Bracelet", "Celebration Bracelet", "DIY Craft Bracelet",
+    "Lucky Red String Bracelet", "Mixed Bead Charm Bracelet", "Soft Pastel Bracelet", "Bold Pattern Bracelet", "Classic Thread Bracelet"
+};
+
 struct Node {
     string name;
     string order;
@@ -68,6 +82,12 @@ deque<pair<string, string>> muffinQueue;
 void muffinEnqueue(string name, string order);
 
 void muffinDequeue();
+
+vector<pair<string, string>> braceletQueue;
+
+void braceletEnqueue(string name, string order);
+
+void braceletDequeue();
 
 void printQueue();
 
@@ -100,6 +120,13 @@ int main() {
         }
         else {
             cout << "Muffin queue is empty." << endl;
+        }
+
+        if (!braceletQueue.empty()) {
+            braceletDequeue();
+        }
+        else {
+            cout << "Bracelet queue is empty." << endl;
         }
 
         if (random < 5) {   
@@ -161,6 +188,22 @@ void muffinDequeue() {
     cout << "Serving " << customer.first << " with order " << customer.second << endl;
 }
 
+void braceletEnqueue(string name, string order) {
+    braceletQueue.push_back({name, order});
+    cout << name << " Joined bracelet queue with order: " << order << endl;
+}
+
+void braceletDequeue() {
+    if (braceletQueue.empty()) {
+        return;
+    }
+
+    auto customer = braceletQueue.front();
+    braceletQueue.erase(braceletQueue.begin());
+
+    cout << "Serving" << customer.first << " with order" << customer.second << endl;
+}
+
 void printQueue() {
     if (front == nullptr) {
         cout << "Queue is empty." << endl;
@@ -186,4 +229,9 @@ void customer() {
     randOrder = rand() % NUM_ORDERS;
 
     muffinEnqueue(NAMES[randName], MUFFINS[randOrder]);
+
+    randName = rand() % NUM_NAMES;
+    randOrder = rand() % NUM_ORDERS;
+
+    braceletEnqueue(NAMES[randName], BRACELETS[randOrder]);
 }
